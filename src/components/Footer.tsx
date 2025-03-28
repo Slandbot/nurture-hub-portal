@@ -4,7 +4,7 @@ import { Facebook, Instagram, Youtube, Mail } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-brand-purple text-white">
+    <footer className="bg-brand-saffron text-white">
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
@@ -14,16 +14,16 @@ const Footer = () => {
               community support with Dr. Nitika.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-brand-lavender transition-colors">
+              <a href="#" className="hover:text-brand-white transition-colors">
                 <Facebook size={20} />
               </a>
-              <a href="#" className="hover:text-brand-lavender transition-colors">
+              <a href="#" className="hover:text-brand-white transition-colors">
                 <Instagram size={20} />
               </a>
-              <a href="#" className="hover:text-brand-lavender transition-colors">
+              <a href="#" className="hover:text-brand-white transition-colors">
                 <Youtube size={20} />
               </a>
-              <a href="#" className="hover:text-brand-lavender transition-colors">
+              <a href="#" className="hover:text-brand-white transition-colors">
                 <Mail size={20} />
               </a>
             </div>
@@ -33,27 +33,27 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/" className="hover:text-brand-lavender transition-colors">
+                <Link to="/" className="hover:text-brand-white transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-brand-lavender transition-colors">
+                <Link to="/about" className="hover:text-brand-white transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/profile" className="hover:text-brand-lavender transition-colors">
+                <Link to="/profile" className="hover:text-brand-white transition-colors">
                   Dr. Nitika's Profile
                 </Link>
               </li>
               <li>
-                <Link to="/events" className="hover:text-brand-lavender transition-colors">
+                <Link to="/events" className="hover:text-brand-white transition-colors">
                   Events
                 </Link>
               </li>
               <li>
-                <Link to="/shop" className="hover:text-brand-lavender transition-colors">
+                <Link to="/shop" className="hover:text-brand-white transition-colors">
                   Shop
                 </Link>
               </li>
@@ -64,27 +64,27 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="hover:text-brand-lavender transition-colors">
+                <a href="#" className="hover:text-brand-white transition-colors">
                   Articles
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-brand-lavender transition-colors">
+                <a href="#" className="hover:text-brand-white transition-colors">
                   E-Books
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-brand-lavender transition-colors">
+                <a href="#" className="hover:text-brand-white transition-colors">
                   Online Courses
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-brand-lavender transition-colors">
+                <a href="#" className="hover:text-brand-white transition-colors">
                   Baby Development
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-brand-lavender transition-colors">
+                <a href="#" className="hover:text-brand-white transition-colors">
                   Calculators
                 </a>
               </li>
@@ -101,7 +101,7 @@ const Footer = () => {
             <div className="mt-4">
               <Link
                 to="/contact"
-                className="bg-white text-brand-purple px-4 py-2 rounded-lg font-medium hover:bg-opacity-90 transition-colors inline-block"
+                className="bg-white text-brand-saffron px-4 py-2 rounded-lg font-medium hover:bg-opacity-90 transition-colors inline-block"
               >
                 Contact Us
               </Link>

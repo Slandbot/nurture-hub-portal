@@ -50,8 +50,8 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
     >
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center">
-          <span className="text-2xl font-bold text-brand-purple">
-            Nurture<span className="text-brand-lavender">Hub</span>
+          <span className="text-2xl font-bold text-brand-saffron">
+            Nurture<span className="text-brand-green">Hub</span>
           </span>
         </Link>
 
@@ -61,7 +61,7 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
             <Link
               key={link.path}
               to={link.path}
-              className={`px-3 py-2 rounded-lg hover:bg-secondary transition-colors ${
+              className={`px-3 py-2 rounded-lg hover:bg-secondary hover:text-white transition-colors ${
                 location.pathname === link.path
                   ? "text-primary font-medium"
                   : "text-foreground"
@@ -93,7 +93,7 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
             </DropdownMenuContent>
           </DropdownMenu>
           
-          <Button asChild variant="default" className="ml-2">
+          <Button asChild variant="default" className="ml-2 bg-brand-saffron hover:bg-brand-ochre">
             <Link to="/login">Login</Link>
           </Button>
         </nav>
@@ -123,7 +123,7 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
                   key={link.path}
                   to={link.path}
                   onClick={toggleMenu}
-                  className={`px-3 py-2 rounded-lg hover:bg-secondary transition-colors ${
+                  className={`px-3 py-2 rounded-lg hover:bg-secondary hover:text-white transition-colors ${
                     location.pathname === link.path
                       ? "text-primary font-medium"
                       : "text-foreground"
@@ -135,11 +135,11 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
               <Link
                 to="/dashboard"
                 onClick={toggleMenu}
-                className="px-3 py-2 rounded-lg hover:bg-secondary transition-colors"
+                className="px-3 py-2 rounded-lg hover:bg-secondary hover:text-white transition-colors"
               >
                 Dashboard
               </Link>
-              <Button asChild variant="default" className="w-full mt-4">
+              <Button asChild variant="default" className="w-full mt-4 bg-brand-saffron hover:bg-brand-ochre">
                 <Link to="/login" onClick={toggleMenu}>
                   Login
                 </Link>

@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -69,6 +68,16 @@ export default {
 					mint: '#d6f5e1',
 					blue: '#b0e0ff',
 					pink: '#ffd6e0',
+					saffron: '#FF9933',
+					white: '#FFFFFF',
+					green: '#138808',
+					navy: '#000080',
+					maroon: '#800000',
+					ochre: '#CC7722',
+					turmeric: '#FFC100',
+					peacock: '#50A3A4',
+					vermilion: '#E34234',
+					henna: '#C68E33',
 				}
 			},
 			borderRadius: {

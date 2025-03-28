@@ -14,30 +14,30 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 270 65% 68%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 25 100% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 270 30% 90%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 130 60% 27%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
+    --muted: 35 50% 90%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 150 40% 90%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 205 50% 48%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 270 65% 68%;
+    --ring: 25 100% 60%;
 
     --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary: 25 100% 60%;
     --sidebar-primary-foreground: 0 0% 98%;
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
@@ -55,27 +55,28 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 270 65% 68%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 25 100% 60%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 130 60% 27%;
+    --secondary-foreground: 0 0% 98%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 150 40% 90%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 205 50% 48%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --ring: 25 100% 60%;
+    
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary: 25 100% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
@@ -101,4 +102,22 @@
 
 .section-padding {
   @apply py-12 md:py-16 px-4;
+}
+
+.indian-gradient {
+  background: linear-gradient(135deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
+}
+
+.peacock-gradient {
+  background: linear-gradient(to right, #50A3A4 0%, #138808 100%);
+}
+
+.spice-gradient {
+  background: linear-gradient(90deg, #E34234 0%, #FFC100 100%);
+}
+
+.henna-pattern {
+  background-color: #F8F4E3;
+  background-image: radial-gradient(#C68E33 2px, transparent 2px);
+  background-size: 20px 20px;
 }
