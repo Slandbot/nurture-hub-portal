@@ -71,7 +71,7 @@ type CartItem = {
 const ShopPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [sortOption, setSortOption] = useState("");
+  const [sortOption, setSortOption] = useState("recommended");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -388,7 +388,7 @@ const ShopPage = () => {
       {/* Categories Tabs */}
       <section className="py-8">
         <div className="container mx-auto px-4">
-          <Tabs defaultValue="all" onValueChange={setSelectedCategory}>
+          <Tabs defaultValue="" onValueChange={setSelectedCategory}>
             <TabsList className="w-full flex justify-start overflow-x-auto pb-2 mb-6">
               <TabsTrigger value="" className="text-sm md:text-base">
                 All Products
@@ -425,7 +425,7 @@ const ShopPage = () => {
                       <SelectValue placeholder="Sort by" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Recommended</SelectItem>
+                      <SelectItem value="recommended">Recommended</SelectItem>
                       <SelectItem value="price-low-high">Price: Low to High</SelectItem>
                       <SelectItem value="price-high-low">Price: High to Low</SelectItem>
                       <SelectItem value="rating">Highest Rated</SelectItem>
