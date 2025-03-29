@@ -16,7 +16,9 @@ import {
   BookOpen,
   Pill,
   Baby,
-  Gift
+  Gift,
+  ShoppingBag,
+  Trash2
 } from "lucide-react";
 import {
   Tabs,
@@ -32,8 +34,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetFooter,
+} from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import PaymentButton from "@/components/PaymentButton";
 
 // Product type definition
 type Product = {
@@ -46,13 +59,21 @@ type Product = {
   category: string;
   tag?: string;
   description: string;
+  productId?: string; // Stripe product ID
+};
+
+// CartItem type definition
+type CartItem = {
+  product: Product;
+  quantity: number;
 };
 
 const ShopPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [sortOption, setSortOption] = useState("");
-  const [cartItems, setCartItems] = useState<number[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Sample products data
   const products: Product[] = [
@@ -63,7 +84,8 @@ const ShopPage = () => {
       rating: 4.8,
       image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570",
       category: "Books",
-      description: "A comprehensive guide to mindful practices during pregnancy for optimal well-being."
+      description: "A comprehensive guide to mindful practices during pregnancy for optimal well-being.",
+      productId: "prod_book_1"
     },
     {
       id: 2,
@@ -74,7 +96,8 @@ const ShopPage = () => {
       image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae",
       category: "Supplements",
       tag: "Best Seller",
-      description: "Complete prenatal vitamin formulation with folic acid, iron, calcium, and essential nutrients."
+      description: "Complete prenatal vitamin formulation with folic acid, iron, calcium, and essential nutrients.",
+      productId: "prod_vitamins_1"
     },
     {
       id: 3,
@@ -83,7 +106,8 @@ const ShopPage = () => {
       rating: 4.6,
       image: "https://images.unsplash.com/photo-1576633587382-13ddf37b1fc1",
       category: "Books",
-      description: "Document your baby's milestones and memories during the first 12 months."
+      description: "Document your baby's milestones and memories during the first 12 months.",
+      productId: "prod_book_2"
     },
     {
       id: 4,
@@ -92,7 +116,8 @@ const ShopPage = () => {
       rating: 4.7,
       image: "https://images.unsplash.com/photo-1576092768241-dec231879fc3",
       category: "Wellness",
-      description: "Caffeine-free herbal tea blend designed to support pregnancy wellness and comfort."
+      description: "Caffeine-free herbal tea blend designed to support pregnancy wellness and comfort.",
+      productId: "prod_wellness_1"
     },
     {
       id: 5,
@@ -102,7 +127,8 @@ const ShopPage = () => {
       rating: 4.5,
       image: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5",
       category: "Tools",
-      description: "Digital tracker to monitor and record your baby's development milestones."
+      description: "Digital tracker to monitor and record your baby's development milestones.",
+      productId: "prod_tools_1"
     },
     {
       id: 6,
@@ -112,7 +138,8 @@ const ShopPage = () => {
       image: "https://images.unsplash.com/photo-1583947215259-38e31be8751f",
       category: "Wellness",
       tag: "New",
-      description: "Comprehensive kit with essential items for postpartum recovery and comfort."
+      description: "Comprehensive kit with essential items for postpartum recovery and comfort.",
+      productId: "prod_wellness_2"
     },
     {
       id: 7,
@@ -121,7 +148,8 @@ const ShopPage = () => {
       rating: 4.7,
       image: "https://images.unsplash.com/photo-1584473457333-8c9f4d4b9026",
       category: "Essentials",
-      description: "Complete bundle with all essentials for successful breastfeeding journey."
+      description: "Complete bundle with all essentials for successful breastfeeding journey.",
+      productId: "prod_essentials_1"
     },
     {
       id: 8,
@@ -130,7 +158,8 @@ const ShopPage = () => {
       rating: 4.6,
       image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f",
       category: "Books",
-      description: "Comprehensive guide to understanding and improving your baby's sleep patterns."
+      description: "Comprehensive guide to understanding and improving your baby's sleep patterns.",
+      productId: "prod_book_3"
     },
     {
       id: 9,
@@ -141,7 +170,8 @@ const ShopPage = () => {
       image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48",
       category: "Gifts",
       tag: "Popular",
-      description: "Thoughtfully curated gift box for new parents with essentials and self-care items."
+      description: "Thoughtfully curated gift box for new parents with essentials and self-care items.",
+      productId: "prod_gifts_1"
     }
   ];
 
@@ -168,11 +198,62 @@ const ShopPage = () => {
   });
 
   // Add to cart function
-  const addToCart = (productId: number) => {
-    setCartItems([...cartItems, productId]);
+  const addToCart = (product: Product) => {
+    setCartItems((prevItems) => {
+      // Check if product is already in cart
+      const existingItemIndex = prevItems.findIndex(item => item.product.id === product.id);
+      
+      if (existingItemIndex >= 0) {
+        // Increment quantity if already in cart
+        const updatedItems = [...prevItems];
+        updatedItems[existingItemIndex].quantity += 1;
+        return updatedItems;
+      } else {
+        // Add new item with quantity 1
+        return [...prevItems, { product, quantity: 1 }];
+      }
+    });
+    
     toast.success("Product added to cart!", {
       description: "View your cart to checkout.",
     });
+    setIsCartOpen(true);
+  };
+
+  // Remove from cart function
+  const removeFromCart = (productId: number) => {
+    setCartItems(prevItems => prevItems.filter(item => item.product.id !== productId));
+    toast("Item removed from cart");
+  };
+
+  // Update item quantity
+  const updateQuantity = (productId: number, newQuantity: number) => {
+    if (newQuantity < 1) return;
+    
+    setCartItems(prevItems => 
+      prevItems.map(item => 
+        item.product.id === productId 
+          ? { ...item, quantity: newQuantity } 
+          : item
+      )
+    );
+  };
+
+  // Calculate cart total
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item) => {
+      const itemPrice = item.product.discountPrice || item.product.price;
+      return total + (itemPrice * item.quantity);
+    }, 0);
+  };
+
+  // Handle successful checkout
+  const handleCheckoutSuccess = () => {
+    toast.success("Order placed successfully!", {
+      description: "Thank you for your purchase.",
+    });
+    setCartItems([]);
+    setIsCartOpen(false);
   };
 
   return (
@@ -184,6 +265,123 @@ const ShopPage = () => {
           <p className="text-lg max-w-3xl mx-auto">
             Discover carefully selected products to support your pregnancy and parenting journey, curated by Dr. Nitika.
           </p>
+          
+          {/* Shopping Cart Button */}
+          <div className="mt-8">
+            <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="lg" className="relative">
+                  <ShoppingBag className="mr-2 h-5 w-5" />
+                  View Cart
+                  {cartItems.length > 0 && (
+                    <Badge className="absolute -top-2 -right-2 bg-primary text-white">
+                      {cartItems.reduce((total, item) => total + item.quantity, 0)}
+                    </Badge>
+                  )}
+                </Button>
+              </SheetTrigger>
+              <SheetContent className="w-full sm:max-w-md flex flex-col">
+                <SheetHeader>
+                  <SheetTitle>Your Shopping Cart</SheetTitle>
+                  <SheetDescription>
+                    {cartItems.length === 0 
+                      ? "Your cart is empty" 
+                      : `You have ${cartItems.reduce((total, item) => total + item.quantity, 0)} items in your cart`}
+                  </SheetDescription>
+                </SheetHeader>
+                
+                {cartItems.length > 0 ? (
+                  <>
+                    <div className="flex-1 overflow-y-auto py-4">
+                      {cartItems.map((item) => (
+                        <div key={item.product.id} className="flex py-4">
+                          <div className="h-20 w-20 bg-muted rounded-md overflow-hidden flex-shrink-0">
+                            <img
+                              src={item.product.image}
+                              alt={item.product.name}
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+                          <div className="ml-4 flex-1">
+                            <h4 className="font-medium">{item.product.name}</h4>
+                            <p className="text-sm text-muted-foreground">
+                              {item.product.discountPrice 
+                                ? `₹${item.product.discountPrice}` 
+                                : `₹${item.product.price}`}
+                            </p>
+                            <div className="flex items-center mt-2">
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                className="h-7 w-7"
+                                onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                                disabled={item.quantity <= 1}
+                              >
+                                -
+                              </Button>
+                              <span className="mx-2">{item.quantity}</span>
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                className="h-7 w-7"
+                                onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                              >
+                                +
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="ml-auto h-7 w-7 text-destructive"
+                                onClick={() => removeFromCart(item.product.id)}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <div className="border-t pt-4">
+                      <div className="flex justify-between mb-2">
+                        <span>Subtotal</span>
+                        <span>₹{calculateTotal()}</span>
+                      </div>
+                      <div className="flex justify-between mb-2 text-muted-foreground text-sm">
+                        <span>Shipping</span>
+                        <span>Free</span>
+                      </div>
+                      <Separator className="my-2" />
+                      <div className="flex justify-between font-medium text-lg mb-6">
+                        <span>Total</span>
+                        <span>₹{calculateTotal()}</span>
+                      </div>
+                      <PaymentButton
+                        amount={calculateTotal()}
+                        description="Nurture Hub Shop Order"
+                        onSuccess={handleCheckoutSuccess}
+                        useCheckout={true}
+                        productId="cart_checkout"
+                      >
+                        Proceed to Checkout
+                      </PaymentButton>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex-1 flex flex-col items-center justify-center text-center p-4">
+                    <ShoppingBag className="h-16 w-16 text-muted-foreground mb-4" />
+                    <h3 className="text-lg font-medium mb-2">Your cart is empty</h3>
+                    <p className="text-muted-foreground mb-6">
+                      Looks like you haven't added any products to your cart yet.
+                    </p>
+                    <Button onClick={() => setIsCartOpen(false)}>
+                      Browse Products
+                    </Button>
+                  </div>
+                )}
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </section>
 
@@ -292,12 +490,12 @@ const ShopPage = () => {
                       </CardContent>
                       <CardFooter>
                         <Button
-                          onClick={() => addToCart(product.id)}
+                          onClick={() => addToCart(product)}
                           className="w-full"
-                          variant={cartItems.includes(product.id) ? "secondary" : "default"}
+                          variant="default"
                         >
                           <ShoppingCart className="mr-2 h-4 w-4" />
-                          {cartItems.includes(product.id) ? "Added to Cart" : "Add to Cart"}
+                          Add to Cart
                         </Button>
                       </CardFooter>
                     </Card>
@@ -352,12 +550,12 @@ const ShopPage = () => {
                       </CardContent>
                       <CardFooter>
                         <Button
-                          onClick={() => addToCart(product.id)}
+                          onClick={() => addToCart(product)}
                           className="w-full"
-                          variant={cartItems.includes(product.id) ? "secondary" : "default"}
+                          variant="default"
                         >
                           <ShoppingCart className="mr-2 h-4 w-4" />
-                          {cartItems.includes(product.id) ? "Added to Cart" : "Add to Cart"}
+                          Add to Cart
                         </Button>
                       </CardFooter>
                     </Card>
@@ -417,12 +615,12 @@ const ShopPage = () => {
                 </CardContent>
                 <CardFooter>
                   <Button
-                    onClick={() => addToCart(product.id)}
+                    onClick={() => addToCart(product)}
                     className="w-full"
-                    variant={cartItems.includes(product.id) ? "secondary" : "default"}
+                    variant="default"
                   >
                     <ShoppingCart className="mr-2 h-4 w-4" />
-                    {cartItems.includes(product.id) ? "Added to Cart" : "Add to Cart"}
+                    Add to Cart
                   </Button>
                 </CardFooter>
               </Card>

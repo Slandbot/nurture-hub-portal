@@ -1,335 +1,370 @@
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { 
   Card, 
-  CardContent, 
-  CardDescription, 
-  CardFooter, 
-  CardHeader, 
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
   CardTitle 
 } from "@/components/ui/card";
-import {
-  Calendar as CalendarIcon,
-  Filter,
-  MapPin,
-  Users,
-  Video
-} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CalendarIcon, MapPin, Clock } from "lucide-react";
+import { toast } from "sonner";
 
 // Event type definition
 type Event = {
   id: number;
   title: string;
   date: Date;
-  time: string;
+  endDate?: Date;
   location: string;
-  isVirtual: boolean;
   description: string;
-  category: string;
+  category: "webinar" | "workshop" | "seminar" | "conference";
   image: string;
-  attendees: number;
+  isPremium: boolean;
+  price?: number;
+  availableSeats?: number;
 };
 
 const EventsPage = () => {
-  const [date, setDate] = useState<Date | undefined>(undefined);
-  const [category, setCategory] = useState<string>("");
-  const [eventType, setEventType] = useState<string>("");
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [registeredEvents, setRegisteredEvents] = useState<number[]>([]);
 
-  // Sample events data
+  // Mock events data
   const events: Event[] = [
     {
       id: 1,
-      title: "Pregnancy Nutrition Workshop",
-      date: new Date(2023, 5, 15),
-      time: "6:00 PM - 8:00 PM",
-      location: "Online",
-      isVirtual: true,
-      description: "Join Dr. Nitika for an interactive workshop on optimal nutrition during pregnancy for you and your baby.",
-      category: "Workshop",
-      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-      attendees: 45
+      title: "Prenatal Nutrition Masterclass",
+      date: new Date(2023, 10, 15, 18, 0),
+      location: "Online Webinar",
+      description: "Learn about essential nutrients needed during pregnancy for optimal maternal and fetal health with Dr. Nitika.",
+      category: "webinar",
+      image: "https://images.unsplash.com/photo-1569398034126-476b0d96e2d1",
+      isPremium: false,
     },
     {
       id: 2,
-      title: "Childbirth Preparation Class",
-      date: new Date(2023, 5, 20),
-      time: "5:00 PM - 7:30 PM",
-      location: "Nurture Hub Center, New Delhi",
-      isVirtual: false,
-      description: "A comprehensive class to prepare expecting parents for labor and delivery with practical techniques.",
-      category: "Class",
-      image: "https://images.unsplash.com/photo-1721322800607-8c38375eef04",
-      attendees: 30
+      title: "Natural Childbirth Workshop",
+      date: new Date(2023, 10, 20, 10, 0),
+      endDate: new Date(2023, 10, 20, 16, 0),
+      location: "Delhi Maternity Center",
+      description: "A comprehensive workshop on natural childbirth techniques, breathing exercises, and labor positions.",
+      category: "workshop",
+      image: "https://images.unsplash.com/photo-1531983412531-1f49a365ffed",
+      isPremium: true,
+      price: 1200,
+      availableSeats: 15,
     },
     {
       id: 3,
-      title: "Infant Sleep Patterns Webinar",
-      date: new Date(2023, 5, 25),
-      time: "6:30 PM - 8:00 PM",
-      location: "Online",
-      isVirtual: true,
-      description: "Learn about infant sleep patterns and strategies to help your baby sleep better with expert guidance.",
-      category: "Webinar",
-      image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-      attendees: 60
+      title: "Postpartum Recovery Seminar",
+      date: new Date(2023, 10, 25, 14, 0),
+      location: "Nurture Hub Center, Mumbai",
+      description: "Essential information for new mothers on physical recovery, emotional wellbeing, and newborn care.",
+      category: "seminar",
+      image: "https://images.unsplash.com/photo-1584187465267-e733bc180ad0",
+      isPremium: false,
     },
     {
       id: 4,
-      title: "New Parent Support Group",
-      date: new Date(2023, 6, 2),
-      time: "11:00 AM - 12:30 PM",
-      location: "Nurture Hub Center, New Delhi",
-      isVirtual: false,
-      description: "Connect with other new parents, share experiences, and get support in this facilitated group session.",
-      category: "Support Group",
-      image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1",
-      attendees: 25
+      title: "Annual Parenting Conference",
+      date: new Date(2023, 11, 5, 9, 0),
+      endDate: new Date(2023, 11, 6, 18, 0),
+      location: "The Leela Palace, Bangalore",
+      description: "Two-day conference featuring expert panels, networking opportunities, and the latest research in parenting.",
+      category: "conference",
+      image: "https://images.unsplash.com/photo-1591522810850-58128c5fb089",
+      isPremium: true,
+      price: 3500,
+      availableSeats: 200,
     },
     {
       id: 5,
-      title: "Breastfeeding Basics",
-      date: new Date(2023, 6, 10),
-      time: "5:00 PM - 6:30 PM",
-      location: "Online",
-      isVirtual: true,
-      description: "Essential information and practical tips for successful breastfeeding for new and expecting mothers.",
-      category: "Workshop",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
-      attendees: 40
+      title: "Infant Sleep Patterns Webinar",
+      date: new Date(2023, 11, 12, 19, 0),
+      location: "Online Webinar",
+      description: "Understanding infant sleep cycles and strategies for helping your baby sleep better through the night.",
+      category: "webinar",
+      image: "https://images.unsplash.com/photo-1590886175640-8c6264177505",
+      isPremium: false,
     },
     {
       id: 6,
-      title: "Baby's First Foods",
-      date: new Date(2023, 6, 15),
-      time: "6:00 PM - 7:30 PM",
-      location: "Nurture Hub Center, New Delhi",
-      isVirtual: false,
-      description: "Learn when and how to introduce solid foods to your baby with demonstrations and tastings.",
-      category: "Workshop",
-      image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b",
-      attendees: 35
-    }
+      title: "Breastfeeding Support Workshop",
+      date: new Date(2023, 11, 18, 11, 0),
+      location: "Motherhood Hospital, Chennai",
+      description: "Hands-on workshop for new mothers to learn proper breastfeeding techniques and address common challenges.",
+      category: "workshop",
+      image: "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73",
+      isPremium: true,
+      price: 800,
+      availableSeats: 20,
+    },
   ];
 
-  // Filter events based on selected criteria
-  const filteredEvents = events.filter((event) => {
-    // Filter by date
-    const dateMatch = !date || 
-      (event.date.getDate() === date.getDate() && 
-       event.date.getMonth() === date.getMonth() && 
-       event.date.getFullYear() === date.getFullYear());
-    
-    // Filter by category
-    const categoryMatch = !category || event.category === category;
-    
-    // Filter by event type (virtual/in-person)
-    const typeMatch = !eventType || 
-      (eventType === "virtual" && event.isVirtual) || 
-      (eventType === "in-person" && !event.isVirtual);
-    
-    return dateMatch && categoryMatch && typeMatch;
-  });
+  // Filter events based on selected date
+  const filteredEvents = date
+    ? events.filter(
+        (event) =>
+          event.date.getDate() === date.getDate() &&
+          event.date.getMonth() === date.getMonth() &&
+          event.date.getFullYear() === date.getFullYear()
+      )
+    : events;
 
-  // Reset filters
-  const resetFilters = () => {
-    setDate(undefined);
-    setCategory("");
-    setEventType("");
+  // Filter events by category
+  const filterEventsByCategory = (category: string) => {
+    if (category === "all") return events;
+    return events.filter((event) => event.category === category);
+  };
+
+  // Format date
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString("en-US", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  };
+
+  // Format time
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+  };
+
+  // Register for event
+  const registerForEvent = (eventId: number) => {
+    setRegisteredEvents([...registeredEvents, eventId]);
+    toast.success("Successfully registered!", {
+      description: "You will receive confirmation shortly.",
+    });
   };
 
   return (
     <div className="pt-16">
       {/* Hero Section */}
-      <section className="bg-brand-lavender/20 section-padding">
+      <section className="spice-gradient section-padding text-white">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Events & Workshops</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Upcoming Events</h1>
           <p className="text-lg max-w-3xl mx-auto">
-            Join Dr. Nitika and our community for insightful events, workshops, and classes designed to support your parenthood journey.
+            Join Dr. Nitika at our upcoming workshops, webinars, and seminars designed to support your pregnancy and parenting journey.
           </p>
         </div>
       </section>
 
-      {/* Filters */}
-      <section className="py-8">
+      {/* Events Calendar Section */}
+      <section className="py-12">
         <div className="container mx-auto px-4">
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
-              <h2 className="text-2xl font-bold flex items-center">
-                <Filter className="mr-2 h-5 w-5" /> Filter Events
-              </h2>
-              <Button variant="outline" onClick={resetFilters} size="sm">
-                Reset Filters
-              </Button>
+          <div className="flex flex-col lg:flex-row gap-8">
+            <div className="lg:w-1/3">
+              <div className="bg-white rounded-lg shadow-md p-4 sticky top-20">
+                <h2 className="text-2xl font-bold mb-4">Find Events</h2>
+                <div className="mb-6">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    className="rounded-md border"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-lg">Event Categories</h3>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge className="cursor-pointer bg-brand-saffron hover:bg-brand-saffron/80">All</Badge>
+                    <Badge className="cursor-pointer bg-brand-green hover:bg-brand-green/80 text-white">Webinars</Badge>
+                    <Badge className="cursor-pointer bg-brand-peacock hover:bg-brand-peacock/80 text-white">Workshops</Badge>
+                    <Badge className="cursor-pointer bg-brand-vermilion hover:bg-brand-vermilion/80 text-white">Seminars</Badge>
+                    <Badge className="cursor-pointer bg-brand-navy hover:bg-brand-navy/80 text-white">Conferences</Badge>
+                  </div>
+                </div>
+              </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">Date</label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start text-left font-normal"
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {date ? format(date, "PPP") : "Select a date"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      onSelect={setDate}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-2">Category</label>
-                <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="All Categories" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">All Categories</SelectItem>
-                    <SelectItem value="Workshop">Workshop</SelectItem>
-                    <SelectItem value="Webinar">Webinar</SelectItem>
-                    <SelectItem value="Class">Class</SelectItem>
-                    <SelectItem value="Support Group">Support Group</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-2">Event Type</label>
-                <Select value={eventType} onValueChange={setEventType}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="All Types" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">All Types</SelectItem>
-                    <SelectItem value="virtual">Virtual</SelectItem>
-                    <SelectItem value="in-person">In-Person</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+            <div className="lg:w-2/3">
+              <Tabs defaultValue="all" className="w-full">
+                <TabsList className="grid grid-cols-5 mb-8">
+                  <TabsTrigger value="all">All</TabsTrigger>
+                  <TabsTrigger value="webinar">Webinars</TabsTrigger>
+                  <TabsTrigger value="workshop">Workshops</TabsTrigger>
+                  <TabsTrigger value="seminar">Seminars</TabsTrigger>
+                  <TabsTrigger value="conference">Conferences</TabsTrigger>
+                </TabsList>
+                
+                {["all", "webinar", "workshop", "seminar", "conference"].map((category) => (
+                  <TabsContent key={category} value={category} className="space-y-6">
+                    {filterEventsByCategory(category).length === 0 ? (
+                      <div className="text-center py-12">
+                        <CalendarIcon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                        <h3 className="text-xl font-semibold mb-2">No events found</h3>
+                        <p className="text-muted-foreground">
+                          There are no {category !== "all" ? category : ""} events scheduled at the moment.
+                        </p>
+                      </div>
+                    ) : (
+                      filterEventsByCategory(category).map((event) => (
+                        <Card key={event.id} className="overflow-hidden hover-scale">
+                          <div className="grid md:grid-cols-3 gap-4">
+                            <div className="aspect-video md:aspect-square bg-muted">
+                              <img
+                                src={event.image}
+                                alt={event.title}
+                                className="object-cover w-full h-full"
+                              />
+                            </div>
+                            <div className="md:col-span-2 p-6">
+                              <CardHeader className="p-0 pb-4">
+                                <div className="flex justify-between items-start">
+                                  <div>
+                                    <CardTitle className="text-xl md:text-2xl">{event.title}</CardTitle>
+                                    <CardDescription className="text-base mt-1">
+                                      <Badge className={`
+                                        ${event.category === "webinar" ? "bg-brand-green" : 
+                                          event.category === "workshop" ? "bg-brand-peacock" : 
+                                          event.category === "seminar" ? "bg-brand-vermilion" : 
+                                          "bg-brand-navy"} text-white
+                                      `}>
+                                        {event.category.charAt(0).toUpperCase() + event.category.slice(1)}
+                                      </Badge>
+                                      {event.isPremium && (
+                                        <Badge variant="outline" className="ml-2 border-brand-saffron text-brand-saffron">
+                                          Premium
+                                        </Badge>
+                                      )}
+                                    </CardDescription>
+                                  </div>
+                                </div>
+                              </CardHeader>
+                              <CardContent className="p-0 space-y-4">
+                                <div className="flex items-center text-muted-foreground">
+                                  <CalendarIcon className="h-4 w-4 mr-2" />
+                                  <span>
+                                    {formatDate(event.date)}
+                                    {event.endDate && ` - ${formatDate(event.endDate)}`}
+                                  </span>
+                                </div>
+                                <div className="flex items-center text-muted-foreground">
+                                  <Clock className="h-4 w-4 mr-2" />
+                                  <span>{formatTime(event.date)}</span>
+                                </div>
+                                <div className="flex items-center text-muted-foreground">
+                                  <MapPin className="h-4 w-4 mr-2" />
+                                  <span>{event.location}</span>
+                                </div>
+                                <p className="text-muted-foreground">
+                                  {event.description}
+                                </p>
+                                {event.isPremium && event.price && (
+                                  <div className="font-semibold text-brand-saffron">
+                                    ₹{event.price} 
+                                    {event.availableSeats && (
+                                      <span className="text-muted-foreground font-normal ml-2">
+                                        ({event.availableSeats} seats available)
+                                      </span>
+                                    )}
+                                  </div>
+                                )}
+                              </CardContent>
+                              <CardFooter className="p-0 pt-4">
+                                <Button
+                                  onClick={() => registerForEvent(event.id)}
+                                  disabled={registeredEvents.includes(event.id)}
+                                  className={registeredEvents.includes(event.id) ? "bg-brand-green" : ""}
+                                >
+                                  {registeredEvents.includes(event.id) ? "Registered" : "Register Now"}
+                                </Button>
+                              </CardFooter>
+                            </div>
+                          </div>
+                        </Card>
+                      ))
+                    )}
+                  </TabsContent>
+                ))}
+              </Tabs>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Events Listing */}
-      <section className="py-8">
+      {/* Upcoming Featured Event */}
+      <section className="bg-brand-mint/20 section-padding">
         <div className="container mx-auto px-4">
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold">{filteredEvents.length} Events Found</h2>
-          </div>
-          
-          {filteredEvents.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-lg text-muted-foreground mb-4">No events match your current filters.</p>
-              <Button onClick={resetFilters}>Reset Filters</Button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredEvents.map((event) => (
-                <Card key={event.id} className="hover-scale overflow-hidden">
-                  <div className="aspect-video relative">
-                    <img 
-                      src={event.image} 
-                      alt={event.title} 
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-xs font-semibold text-primary">
-                      {event.category}
-                    </div>
-                  </div>
-                  <CardHeader className="pb-2">
-                    <div className="text-sm text-primary font-medium mb-1">
-                      {format(event.date, "MMMM d, yyyy")} • {event.time}
-                    </div>
-                    <CardTitle>{event.title}</CardTitle>
-                    <CardDescription className="flex items-center">
-                      {event.isVirtual ? (
-                        <>
-                          <Video className="h-4 w-4 mr-1" />
-                          Virtual Event
-                        </>
-                      ) : (
-                        <>
-                          <MapPin className="h-4 w-4 mr-1" />
-                          {event.location}
-                        </>
-                      )}
+          <h2 className="text-3xl font-bold text-center mb-12">Featured Event</h2>
+          <Card className="overflow-hidden">
+            <div className="grid md:grid-cols-2">
+              <div className="aspect-video md:aspect-auto md:h-full bg-muted">
+                <img
+                  src="https://images.unsplash.com/photo-1591522810850-58128c5fb089"
+                  alt="Annual Parenting Conference"
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <div className="p-8">
+                <CardHeader className="p-0 pb-6">
+                  <div>
+                    <Badge className="bg-brand-navy text-white mb-4">Conference</Badge>
+                    <CardTitle className="text-2xl md:text-3xl">Annual Parenting Conference 2023</CardTitle>
+                    <CardDescription className="text-base mt-2">
+                      The biggest parenting event of the year
                     </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground line-clamp-3">
-                      {event.description}
-                    </p>
-                    <div className="flex items-center mt-4 text-sm text-muted-foreground">
-                      <Users className="h-4 w-4 mr-1" />
-                      {event.attendees} people attending
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button className="w-full">Register Now</Button>
-                  </CardFooter>
-                </Card>
-              ))}
+                  </div>
+                </CardHeader>
+                <CardContent className="p-0 space-y-4">
+                  <div className="flex items-center text-muted-foreground">
+                    <CalendarIcon className="h-4 w-4 mr-2" />
+                    <span>December 5-6, 2023</span>
+                  </div>
+                  <div className="flex items-center text-muted-foreground">
+                    <MapPin className="h-4 w-4 mr-2" />
+                    <span>The Leela Palace, Bangalore</span>
+                  </div>
+                  <p className="text-muted-foreground">
+                    Join us for this exclusive two-day conference featuring expert panels, networking opportunities, and the latest research in parenting. This year's theme focuses on holistic child development and positive parenting techniques.
+                  </p>
+                  <div className="font-semibold text-brand-saffron">
+                    Early Bird Price: ₹3,500
+                    <span className="text-muted-foreground font-normal ml-2">
+                      (Limited seats available)
+                    </span>
+                  </div>
+                </CardContent>
+                <CardFooter className="p-0 pt-6">
+                  <Button size="lg">
+                    Reserve Your Spot
+                  </Button>
+                </CardFooter>
+              </div>
             </div>
-          )}
+          </Card>
         </div>
       </section>
 
-      {/* Monthly Calendar Preview */}
-      <section className="bg-brand-mint/30 section-padding">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4">Monthly Calendar</h2>
-            <p className="max-w-2xl mx-auto text-muted-foreground">
-              View our upcoming events for the month ahead and plan your participation. Join us for enriching experiences that support your parenting journey.
-            </p>
-          </div>
-          
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <Calendar 
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              className="mx-auto"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Host an Event CTA */}
-      <section className="bg-brand-purple text-white section-padding">
+      {/* Newsletter */}
+      <section className="peacock-gradient text-white section-padding">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Want to Host an Event?</h2>
+          <h2 className="text-3xl font-bold mb-4">Never Miss An Event</h2>
           <p className="text-lg mb-8 max-w-2xl mx-auto">
-            If you're interested in collaborating with Dr. Nitika to host a workshop or event for your community, we'd love to hear from you.
+            Subscribe to our newsletter to get updates on upcoming events, exclusive invitations, and early bird discounts.
           </p>
-          <Button variant="secondary" size="lg" className="text-primary">
-            Contact Us
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+            <input 
+              type="email" 
+              placeholder="Your email address" 
+              className="px-4 py-2 rounded-md border border-white/30 bg-white/20 text-white placeholder:text-white/70 w-full"
+            />
+            <Button variant="secondary" className="text-brand-peacock font-medium">
+              Subscribe
+            </Button>
+          </div>
         </div>
       </section>
     </div>
