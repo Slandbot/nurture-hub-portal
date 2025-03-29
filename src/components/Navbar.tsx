@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown, LogOut, User } from "lucide-react";
+import { Menu, X, ChevronDown, LogOut, User, Calendar as CalendarIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -82,12 +82,20 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem asChild>
-                <Link to="/dashboard" className="w-full">Dashboard</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/appointments" className="w-full">Appointments</Link>
-              </DropdownMenuItem>
+              {isAuthenticated ? (
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard" className="w-full">Dashboard</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/appointments" className="w-full">Appointments</Link>
+                  </DropdownMenuItem>
+                </>
+              ) : (
+                <DropdownMenuItem asChild>
+                  <Link to="/login" className="w-full">Login to access more</Link>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem asChild>
                 <Link to="#" className="w-full">Articles</Link>
               </DropdownMenuItem>
@@ -122,7 +130,7 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link to="/appointments" className="w-full">
-                    <Calendar className="mr-2 h-4 w-4" />
+                    <CalendarIcon className="mr-2 h-4 w-4" />
                     My Appointments
                   </Link>
                 </DropdownMenuItem>
@@ -174,20 +182,24 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
                   {link.name}
                 </Link>
               ))}
-              <Link
-                to="/dashboard"
-                onClick={toggleMenu}
-                className="px-3 py-2 rounded-lg hover:bg-secondary hover:text-white transition-colors"
-              >
-                Dashboard
-              </Link>
-              <Link
-                to="/appointments"
-                onClick={toggleMenu}
-                className="px-3 py-2 rounded-lg hover:bg-secondary hover:text-white transition-colors"
-              >
-                Appointments
-              </Link>
+              {isAuthenticated && (
+                <>
+                  <Link
+                    to="/dashboard"
+                    onClick={toggleMenu}
+                    className="px-3 py-2 rounded-lg hover:bg-secondary hover:text-white transition-colors"
+                  >
+                    Dashboard
+                  </Link>
+                  <Link
+                    to="/appointments"
+                    onClick={toggleMenu}
+                    className="px-3 py-2 rounded-lg hover:bg-secondary hover:text-white transition-colors"
+                  >
+                    Appointments
+                  </Link>
+                </>
+              )}
               
               {isAuthenticated ? (
                 <>

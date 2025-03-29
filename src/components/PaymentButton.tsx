@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { createCheckoutSession, processPayment } from "@/services/stripe";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useAuthCheck } from "../hooks/useAuthCheck";
 
 interface PaymentButtonProps {
   productId?: string;
@@ -29,17 +30,13 @@ const PaymentButton = ({
   useCheckout = true,
 }: PaymentButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const { checkAuth } = useAuthCheck({ redirectToLogin: true });
 
   const handlePayment = async () => {
     // Check if user is logged in
-    if (!isAuthenticated) {
-      toast.error("Authentication required", {
-        description: "Please log in to make a payment",
-      });
-      navigate("/login");
-      return;
+    if (!checkAuth()) {
+      return; // The useAuthCheck hook will handle redirection and toast
     }
     
     setIsLoading(true);
