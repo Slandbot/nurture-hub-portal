@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { CreditCard, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { createCheckoutSession, processPayment } from "@/services/stripe";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 interface PaymentButtonProps {
   productId?: string;
@@ -27,8 +29,19 @@ const PaymentButton = ({
   useCheckout = true,
 }: PaymentButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const handlePayment = async () => {
+    // Check if user is logged in
+    if (!isAuthenticated) {
+      toast.error("Authentication required", {
+        description: "Please log in to make a payment",
+      });
+      navigate("/login");
+      return;
+    }
+    
     setIsLoading(true);
     
     try {

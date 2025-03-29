@@ -18,51 +18,28 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { toast } from "sonner";
 import { Facebook, Mail, ChevronLeft } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const { login, signup, isLoading } = useAuth();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    
-    // Simulate authentication
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success("Login successful!", {
-        description: "Welcome back to Nurture Hub!",
-      });
-    }, 1500);
+    await login(email, password);
   };
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    
-    // Simulate registration
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success("Account created successfully!", {
-        description: "Welcome to Nurture Hub!",
-      });
-    }, 1500);
+    await signup(name, email, password);
   };
 
   const handleSocialLogin = (provider: string) => {
-    setIsLoading(true);
-    
-    // Simulate social login
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success(`${provider} login successful!`, {
-        description: "Welcome to Nurture Hub!",
-      });
-    }, 1500);
+    // In a real app, this would redirect to OAuth flow
+    console.log(`${provider} login requested`);
   };
 
   return (
@@ -79,8 +56,8 @@ const LoginPage = () => {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <Link to="/" className="inline-block">
-              <span className="text-3xl font-bold text-brand-purple">
-                Nurture<span className="text-brand-lavender">Hub</span>
+              <span className="text-3xl font-bold text-brand-saffron">
+                Nurture<span className="text-brand-green">Hub</span>
               </span>
             </Link>
             <h1 className="text-2xl font-bold mt-6 mb-2">Welcome to Nurture Hub</h1>
