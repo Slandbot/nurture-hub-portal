@@ -19,12 +19,13 @@ import AppointmentPage from "./pages/AppointmentPage";
 import NotFound from "./pages/NotFound";
 import AuthRequired from "./components/AuthRequired";
 
+// Create a new QueryClient instance
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <ThemeProvider defaultTheme="system">
+      <ThemeProvider defaultTheme="light">
         <BrowserRouter>
           <AuthProvider>
             <Toaster />

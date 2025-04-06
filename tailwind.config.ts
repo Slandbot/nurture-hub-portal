@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,25 +64,23 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				brand: {
-					purple: '#E5DEFF',
-					lavender: '#D3B5E5',
-					mint: '#F2FCE2',
-					blue: '#D3E4FD',
-					pink: '#FFDEE2',
-					softYellow: '#FEF7CD',
-					softOrange: '#FEC6A1',
-					softPeach: '#FDE1D3',
-					softGray: '#F1F0FB',
-					green: '#85DCB0',
+					// Updated to softer, more baby-friendly colors
+					peach: '#FFE6D9',
+					softBlue: '#D8E8F5',
+					lavender: '#E6E6FA',
+					cream: '#FFF8E7',
+					mintGreen: '#E8F5E9',
+					softYellow: '#FFF9C4',
+					softPink: '#FFE1E6',
+					softTeal: '#CCEFF0',
+					beige: '#F5F0E3',
+					softGray: '#F0F2F5',
 					white: '#FFFFFF',
-					saffron: '#FFA9A3',
-					navy: '#6B7FD7',
-					maroon: '#9E768F',
-					ochre: '#FFA26B',
-					turmeric: '#FFCF86',
-					peacock: '#79C2D0',
-					vermilion: '#FF9AA2',
-					henna: '#FFB7B2',
+					purple: '#EAE1F8',
+					coral: '#FFD6CC',
+					seafoam: '#CCECE7',
+					sand: '#F2E6D9',
+					softOrange: '#FFE0CC',
 				}
 			},
 			borderRadius: {
@@ -129,6 +128,13 @@ export default {
 			},
 			fontFamily: {
 				'quicksand': ['Quicksand', 'sans-serif'],
+				'playfair': ['Playfair Display', 'serif'],
+				'merriweather': ['Merriweather', 'serif'],
+				'opensans': ['Open Sans', 'sans-serif'],
+				'lato': ['Lato', 'sans-serif'],
+				'roboto': ['Roboto', 'sans-serif'],
+				'dancing': ['Dancing Script', 'cursive'],
+				'pacifico': ['Pacifico', 'cursive'],
 			}
 		}
 	},
