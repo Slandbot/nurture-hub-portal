@@ -7,83 +7,83 @@
 
 @layer base {
   :root {
-    --background: 40 33% 98%;
-    --foreground: 210 25% 25%;
+    --background: 40 30% 98%;
+    --foreground: 210 20% 25%;
 
     --card: 0 0% 100%;
-    --card-foreground: 210 25% 25%;
+    --card-foreground: 210 20% 25%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 210 25% 25%;
+    --popover-foreground: 210 20% 25%;
 
-    --primary: 195 45% 88%;
-    --primary-foreground: 195 60% 30%;
+    --primary: 195 30% 85%;
+    --primary-foreground: 195 40% 30%;
 
-    --secondary: 340 70% 94%;
-    --secondary-foreground: 340 75% 38%;
+    --secondary: 340 40% 92%;
+    --secondary-foreground: 340 50% 38%;
 
-    --muted: 60 33% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 60 30% 96%;
+    --muted-foreground: 215 15% 47%;
 
-    --accent: 280 33% 95%;
-    --accent-foreground: 280 50% 30%;
+    --accent: 280 25% 92%;
+    --accent-foreground: 280 40% 30%;
 
-    --destructive: 0 84% 65%;
+    --destructive: 0 70% 65%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 195 45% 88%;
+    --border: 214 25% 91%;
+    --input: 214 25% 91%;
+    --ring: 195 30% 85%;
 
     --radius: 1rem;
 
-    --sidebar-background: 195 33% 96%;
+    --sidebar-background: 195 25% 96%;
     --sidebar-foreground: 240 5% 26%;
-    --sidebar-primary: 340 70% 94%;
-    --sidebar-primary-foreground: 339 76% 44%;
+    --sidebar-primary: 340 40% 92%;
+    --sidebar-primary-foreground: 339 50% 44%;
     --sidebar-accent: 240 5% 96%;
     --sidebar-accent-foreground: 240 6% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-ring: 217 60% 60%;
   }
 
   .dark {
-    --background: 210 25% 8%;
-    --foreground: 210 30% 90%;
+    --background: 210 20% 10%;
+    --foreground: 210 20% 90%;
 
-    --card: 210 25% 8%;
-    --card-foreground: 210 30% 90%;
+    --card: 210 20% 10%;
+    --card-foreground: 210 20% 90%;
 
-    --popover: 210 25% 8%;
-    --popover-foreground: 210 30% 90%;
+    --popover: 210 20% 10%;
+    --popover-foreground: 210 20% 90%;
 
-    --primary: 195 40% 40%;
+    --primary: 195 30% 35%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 340 40% 50%;
+    --secondary: 340 30% 45%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 217 33% 18%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 217 25% 18%;
+    --muted-foreground: 215 15% 65%;
 
-    --accent: 280 30% 45%;
+    --accent: 280 25% 40%;
     --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 63% 31%;
+    --destructive: 0 50% 30%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217 32% 18%;
-    --input: 217 32% 18%;
-    --ring: 195 40% 40%;
+    --border: 217 25% 18%;
+    --input: 217 25% 18%;
+    --ring: 195 30% 35%;
     
-    --sidebar-background: 240 6% 10%;
-    --sidebar-foreground: 240 5% 96%;
-    --sidebar-primary: 339 40% 55%;
+    --sidebar-background: 240 6% 12%;
+    --sidebar-foreground: 240 5% 90%;
+    --sidebar-primary: 339 30% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 4% 16%;
-    --sidebar-accent-foreground: 240 5% 96%;
+    --sidebar-accent-foreground: 240 5% 90%;
     --sidebar-border: 240 4% 16%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-ring: 217 60% 60%;
   }
 }
 
@@ -110,26 +110,26 @@
   @apply py-12 md:py-16 px-4;
 }
 
-/* Updated gradients with softer colors */
+/* Updated gradients with calmer colors */
 .baby-gradient {
-  background: linear-gradient(135deg, #D8E8F5 0%, #FFE1E6 50%, #E8F5E9 100%);
+  background: linear-gradient(135deg, #E8EFF5 0%, #F5E6E8 50%, #EAF5EC 100%);
 }
 
 .pastel-gradient {
-  background: linear-gradient(to right, #E6E6FA 0%, #FFE1E6 100%);
+  background: linear-gradient(to right, #ECECF6 0%, #F5E6E8 100%);
 }
 
 .soft-gradient {
-  background: linear-gradient(90deg, #FFF9C4 0%, #FFE0CC 100%);
+  background: linear-gradient(90deg, #F9F5E3 0%, #F5E6DF 100%);
 }
 
 .baby-pattern {
-  background-color: #F0F2F5;
-  background-image: radial-gradient(#FFE1E6 2px, transparent 2px);
+  background-color: #F7F7F9;
+  background-image: radial-gradient(#F5E6E8 1.5px, transparent 1.5px);
   background-size: 20px 20px;
 }
 
-/* Additional classes for baby-friendly styling with updated colors */
+/* Additional classes for baby-friendly styling with calmer colors */
 .baby-bg-blue {
   @apply bg-brand-softBlue;
 }
@@ -185,9 +185,9 @@
 
 /* Card styling */
 .baby-card {
-  @apply bg-white rounded-xl shadow-md overflow-hidden border border-gray-100;
+  @apply bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100;
 }
 
 .testimonial-card {
-  @apply bg-brand-cream rounded-xl shadow-sm p-6 border border-brand-peach/20;
+  @apply bg-brand-cream/60 rounded-xl shadow-sm p-6 border border-brand-peach/10;
 }
