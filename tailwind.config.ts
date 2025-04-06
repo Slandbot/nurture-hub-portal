@@ -63,21 +63,25 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				brand: {
-					purple: '#9b74e8',
-					lavender: '#c9adff',
-					mint: '#d6f5e1',
-					blue: '#b0e0ff',
-					pink: '#ffd6e0',
-					saffron: '#FF9933',
+					purple: '#E5DEFF',
+					lavender: '#D3B5E5',
+					mint: '#F2FCE2',
+					blue: '#D3E4FD',
+					pink: '#FFDEE2',
+					softYellow: '#FEF7CD',
+					softOrange: '#FEC6A1',
+					softPeach: '#FDE1D3',
+					softGray: '#F1F0FB',
+					green: '#85DCB0',
 					white: '#FFFFFF',
-					green: '#138808',
-					navy: '#000080',
-					maroon: '#800000',
-					ochre: '#CC7722',
-					turmeric: '#FFC100',
-					peacock: '#50A3A4',
-					vermilion: '#E34234',
-					henna: '#C68E33',
+					saffron: '#FFA9A3',
+					navy: '#6B7FD7',
+					maroon: '#9E768F',
+					ochre: '#FFA26B',
+					turmeric: '#FFCF86',
+					peacock: '#79C2D0',
+					vermilion: '#FF9AA2',
+					henna: '#FFB7B2',
 				}
 			},
 			borderRadius: {
@@ -111,12 +115,20 @@ export default {
 						opacity: '1',
 						transform: 'translateY(0)'
 					}
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' },
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'fade-in': 'fade-in 0.5s ease-out'
+				'fade-in': 'fade-in 0.5s ease-out',
+				'float': 'float 3s ease-in-out infinite'
+			},
+			fontFamily: {
+				'quicksand': ['Quicksand', 'sans-serif'],
 			}
 		}
 	},

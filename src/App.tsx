@@ -44,7 +44,7 @@ const App = () => (
               
               {/* Auth Required fallback */}
               <Route path="auth-required" element={
-                <div className="pt-20 pb-10 min-h-screen">
+                <div className="pt-20 pb-10 min-h-screen baby-pattern">
                   <AuthRequired message="Please log in to access this feature" showLogin={true} />
                 </div>
               } />

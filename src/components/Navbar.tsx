@@ -41,9 +41,9 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About Us", path: "/about" },
-    { name: "Dr. Nitika", path: "/profile" },
-    { name: "Events", path: "/events" },
-    { name: "Shop", path: "/shop" },
+    { name: "Virtue Baby Store", path: "/shop" },
+    { name: "Virtues/Sanskaras", path: "/events" },
+    { name: "Article", path: "/profile" },
   ];
 
   return (
@@ -54,8 +54,9 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
     >
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center">
-          <span className="text-2xl font-bold text-brand-saffron">
-            Nurture<span className="text-brand-green">Hub</span>
+          <span className="text-2xl font-bold">
+            <span className="text-brand-pink">Virtue</span>
+            <span className="text-brand-blue">Baby</span>
           </span>
         </Link>
 
@@ -65,9 +66,9 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
             <Link
               key={link.path}
               to={link.path}
-              className={`px-3 py-2 rounded-lg hover:bg-secondary hover:text-white transition-colors ${
+              className={`px-3 py-2 rounded-lg hover:bg-brand-mint hover:text-primary-foreground transition-colors ${
                 location.pathname === link.path
-                  ? "text-primary font-medium"
+                  ? "text-secondary-foreground font-medium"
                   : "text-foreground"
               }`}
             >
@@ -88,7 +89,7 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
                     <Link to="/dashboard" className="w-full">Dashboard</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/appointments" className="w-full">Appointments</Link>
+                    <Link to="/appointments" className="w-full">Online Consultation</Link>
                   </DropdownMenuItem>
                 </>
               ) : (
@@ -97,10 +98,10 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
                 </DropdownMenuItem>
               )}
               <DropdownMenuItem asChild>
-                <Link to="#" className="w-full">Articles</Link>
+                <Link to="#" className="w-full">Gallery</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link to="#" className="w-full">Contact Us</Link>
+                <Link to="#" className="w-full">Feedback</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -131,7 +132,7 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
                 <DropdownMenuItem asChild>
                   <Link to="/appointments" className="w-full">
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    My Appointments
+                    Online Consultation
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -142,7 +143,7 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button asChild variant="default" className="ml-2 bg-brand-saffron hover:bg-brand-ochre">
+            <Button asChild variant="default" className="ml-2 bg-brand-pink hover:bg-brand-lavender">
               <Link to="/login">Login</Link>
             </Button>
           )}
@@ -173,30 +174,44 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
                   key={link.path}
                   to={link.path}
                   onClick={toggleMenu}
-                  className={`px-3 py-2 rounded-lg hover:bg-secondary hover:text-white transition-colors ${
+                  className={`px-3 py-2 rounded-lg hover:bg-brand-mint hover:text-primary-foreground transition-colors ${
                     location.pathname === link.path
-                      ? "text-primary font-medium"
+                      ? "text-secondary-foreground font-medium"
                       : "text-foreground"
                   }`}
                 >
                   {link.name}
                 </Link>
               ))}
+              <Link
+                to="#"
+                onClick={toggleMenu}
+                className="px-3 py-2 rounded-lg hover:bg-brand-mint hover:text-primary-foreground transition-colors"
+              >
+                Gallery
+              </Link>
+              <Link
+                to="#"
+                onClick={toggleMenu}
+                className="px-3 py-2 rounded-lg hover:bg-brand-mint hover:text-primary-foreground transition-colors"
+              >
+                Feedback
+              </Link>
               {isAuthenticated && (
                 <>
                   <Link
                     to="/dashboard"
                     onClick={toggleMenu}
-                    className="px-3 py-2 rounded-lg hover:bg-secondary hover:text-white transition-colors"
+                    className="px-3 py-2 rounded-lg hover:bg-brand-mint hover:text-primary-foreground transition-colors"
                   >
                     Dashboard
                   </Link>
                   <Link
                     to="/appointments"
                     onClick={toggleMenu}
-                    className="px-3 py-2 rounded-lg hover:bg-secondary hover:text-white transition-colors"
+                    className="px-3 py-2 rounded-lg hover:bg-brand-mint hover:text-primary-foreground transition-colors"
                   >
-                    Appointments
+                    Online Consultation
                   </Link>
                 </>
               )}
@@ -226,7 +241,7 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
                   </Button>
                 </>
               ) : (
-                <Button asChild variant="default" className="w-full mt-4 bg-brand-saffron hover:bg-brand-ochre">
+                <Button asChild variant="default" className="w-full mt-4 bg-brand-pink hover:bg-brand-lavender">
                   <Link to="/login" onClick={toggleMenu}>
                     Login
                   </Link>

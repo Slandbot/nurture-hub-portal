@@ -14,31 +14,31 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 25 100% 60%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 183 100% 85%;
+    --primary-foreground: 210 40% 30%;
 
-    --secondary: 130 60% 27%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 329 86% 95%;
+    --secondary-foreground: 339 76% 44%;
 
-    --muted: 35 50% 90%;
+    --muted: 53 100% 93%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 205 50% 48%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 265 80% 90%;
+    --accent-foreground: 270 50% 30%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 25 100% 60%;
+    --ring: 183 100% 85%;
 
     --radius: 1rem;
 
-    --sidebar-background: 0 0% 98%;
+    --sidebar-background: 183 100% 95%;
     --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 25 100% 60%;
-    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-primary: 329 86% 95%;
+    --sidebar-primary-foreground: 339 76% 44%;
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
@@ -55,16 +55,16 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 25 100% 60%;
+    --primary: 183 100% 55%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 130 60% 27%;
+    --secondary: 329 86% 70%;
     --secondary-foreground: 0 0% 98%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 205 50% 48%;
+    --accent: 265 80% 60%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -72,11 +72,11 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 25 100% 60%;
+    --ring: 183 100% 55%;
     
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 25 100% 60%;
+    --sidebar-primary: 329 86% 70%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
@@ -92,7 +92,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Quicksand', 'Inter', sans-serif;
   }
 }
 
@@ -104,20 +104,53 @@
   @apply py-12 md:py-16 px-4;
 }
 
-.indian-gradient {
-  background: linear-gradient(135deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
+.baby-gradient {
+  background: linear-gradient(135deg, #D3E4FD 0%, #FFDEE2 50%, #F2FCE2 100%);
 }
 
-.peacock-gradient {
-  background: linear-gradient(to right, #50A3A4 0%, #138808 100%);
+.pastel-gradient {
+  background: linear-gradient(to right, #E5DEFF 0%, #FFDEE2 100%);
 }
 
-.spice-gradient {
-  background: linear-gradient(90deg, #E34234 0%, #FFC100 100%);
+.soft-gradient {
+  background: linear-gradient(90deg, #FEF7CD 0%, #FDE1D3 100%);
 }
 
-.henna-pattern {
-  background-color: #F8F4E3;
-  background-image: radial-gradient(#C68E33 2px, transparent 2px);
+.baby-pattern {
+  background-color: #F1F0FB;
+  background-image: radial-gradient(#FFDEE2 2px, transparent 2px);
   background-size: 20px 20px;
+}
+
+/* Additional classes for baby-friendly styling */
+.baby-bg-blue {
+  @apply bg-[#D3E4FD];
+}
+
+.baby-bg-pink {
+  @apply bg-[#FFDEE2];
+}
+
+.baby-bg-green {
+  @apply bg-[#F2FCE2];
+}
+
+.baby-bg-yellow {
+  @apply bg-[#FEF7CD];
+}
+
+.baby-bg-purple {
+  @apply bg-[#E5DEFF];
+}
+
+.baby-bg-peach {
+  @apply bg-[#FDE1D3];
+}
+
+.baby-bg-orange {
+  @apply bg-[#FEC6A1];
+}
+
+.baby-bg-gray {
+  @apply bg-[#F1F0FB];
 }
