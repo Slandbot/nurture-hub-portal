@@ -5,6 +5,7 @@ const CRITICAL_IMAGES = [
   'https://images.unsplash.com/photo-1649972904349-6e44c42644a7', // Dr. Nitika's profile
   'https://images.unsplash.com/photo-1544947950-fa07a98d237f', // Featured book
   'https://images.unsplash.com/photo-1591522810850-58128c5fb089', // Featured event
+  'public/image/mom-and', // Featured product
 ];
 
 // Images to preload after critical images

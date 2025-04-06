@@ -38,7 +38,7 @@ const HomePage = () => {
           <div className="md:w-1/2 flex justify-center animate-fade-in">
             <div className="bg-white p-2 rounded-lg shadow-lg transform rotate-3">
               <img
-                src="public/images/mom-and-baby.jpg" // Replace with your image path
+                src="/images/mom-and-baby.jpg"
                 alt="Dr. Nitika"
                 className="rounded max-w-full h-auto shadow-lg"
                 style={{ maxHeight: "400px" }}
