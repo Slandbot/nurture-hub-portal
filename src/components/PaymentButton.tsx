@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { paymentSchema } from "@/lib/validation";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -40,6 +42,8 @@ type PaymentFormData = {
 export default function PaymentButton({ amount, productId, onSuccess }: PaymentButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const form = useForm<PaymentFormData>({
     resolver: zodResolver(paymentSchema),
@@ -50,6 +54,17 @@ export default function PaymentButton({ amount, productId, onSuccess }: PaymentB
       name: "",
     },
   });
+
+  const handlePaymentClick = () => {
+    if (!isAuthenticated) {
+      toast.error("Authentication Required", {
+        description: "Please log in to make a purchase",
+      });
+      navigate("/login");
+      return;
+    }
+    setIsOpen(true);
+  };
 
   const onSubmit = async (data: PaymentFormData) => {
     setIsProcessing(true);
@@ -102,7 +117,9 @@ export default function PaymentButton({ amount, productId, onSuccess }: PaymentB
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full">Pay ${(amount / 100).toFixed(2)}</Button>
+        <Button className="w-full" onClick={handlePaymentClick}>
+          Pay ${(amount / 100).toFixed(2)}
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

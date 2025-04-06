@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { 
   Card, 
@@ -47,6 +46,8 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import PaymentButton from "@/components/PaymentButton";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 // Product type definition
 type Product = {
@@ -74,6 +75,8 @@ const ShopPage = () => {
   const [sortOption, setSortOption] = useState("recommended");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   // Sample products data
   const products: Product[] = [
@@ -199,6 +202,14 @@ const ShopPage = () => {
 
   // Add to cart function
   const addToCart = (product: Product) => {
+    if (!isAuthenticated) {
+      toast.error("Authentication Required", {
+        description: "Please log in to add items to your cart",
+      });
+      navigate("/login");
+      return;
+    }
+
     setCartItems((prevItems) => {
       // Check if product is already in cart
       const existingItemIndex = prevItems.findIndex(item => item.product.id === product.id);
@@ -358,13 +369,9 @@ const ShopPage = () => {
                       </div>
                       <PaymentButton
                         amount={calculateTotal()}
-                        description="Nurture Hub Shop Order"
-                        onSuccess={handleCheckoutSuccess}
-                        useCheckout={true}
                         productId="cart_checkout"
-                      >
-                        Proceed to Checkout
-                      </PaymentButton>
+                        onSuccess={handleCheckoutSuccess}
+                      />
                     </div>
                   </>
                 ) : (
