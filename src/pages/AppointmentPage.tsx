@@ -182,7 +182,7 @@ const AppointmentPage = () => {
   return (
     <div className="pt-16">
       {/* Hero Section */}
-      <section className="indian-gradient section-padding text-white">
+      <section className="indian-gradient section-padding ">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Book an Appointment</h1>
           <p className="text-lg max-w-3xl mx-auto">

@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -172,25 +171,45 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Team Section (Dr. Nitika Preview) */}
+      {/* Team Section */}
       <section className="bg-brand-blue/20 section-padding">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-8">Our Team</h2>
-          <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
-            <div className="p-4">
-              <img 
-                src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7" 
-                alt="Dr. Nitika" 
-                className="w-32 h-32 rounded-full mx-auto object-cover"
-              />
-              <h3 className="text-xl font-bold mt-4">Dr. Nitika</h3>
-              <p className="text-primary mb-2">Founder & Lead Consultant</p>
-              <p className="text-sm text-muted-foreground mb-4">
-                With over 10 years of experience in prenatal care and parenting support, Dr. Nitika has helped thousands of families navigate their parenthood journey.
-              </p>
-              <Button asChild variant="outline" className="mb-4">
-                <Link to="/profile">View Full Profile</Link>
-              </Button>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="bg-white rounded-lg overflow-hidden shadow-lg">
+              <div className="p-6">
+                <img 
+                  src="https://www.virtuebaby.in/images/img2.jpg" 
+                  alt="Dr. Nitika" 
+                  className="w-32 h-32 rounded-full mx-auto object-cover"
+                />
+                <h3 className="text-xl font-bold mt-4">Dr. Nitika</h3>
+                <p className="text-primary mb-2">Founder & Lead Consultant</p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  With over 10 years of experience in prenatal care and parenting support, Dr. Nitika has helped thousands of families navigate their parenthood journey with expertise in pregnancy wellness and child development.
+                </p>
+                <Button asChild variant="outline">
+                  <Link to="/profile/dr-nitika">View Full Profile</Link>
+                </Button>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg overflow-hidden shadow-lg">
+              <div className="p-6">
+                <img 
+                  src="https://www.virtuebaby.in/images/img5.jpg" 
+                  alt="Mr. Kirit Sobti" 
+                  className="w-32 h-32 rounded-full mx-auto object-cover"
+                />
+                <h3 className="text-xl font-bold mt-4">Mr. Kirit Sobti</h3>
+                <p className="text-primary mb-2">Lead Consultant</p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  A seasoned consultant specializing in early childhood development and parental guidance, Mr. Kirit brings valuable expertise in helping families create nurturing environments for their children.
+                </p>
+                <Button asChild variant="outline">
+                  <Link to="/profile/kirit-sobti">View Full Profile</Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
