@@ -14,7 +14,7 @@ const Layout = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Navbar menuOpen={menuOpen} toggleMenu={toggleMenu} />
       <main className={`flex-grow ${menuOpen ? "mt-16" : ""}`}>
         <Outlet />

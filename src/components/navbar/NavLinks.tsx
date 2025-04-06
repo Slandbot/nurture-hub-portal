@@ -14,7 +14,7 @@ export const NavLink = ({ path, name, onClick }: NavLinkProps) => {
     <Link
       to={path}
       onClick={onClick}
-      className={`px-3 py-2 rounded-lg hover:bg-brand-mint hover:text-primary-foreground transition-colors ${
+      className={`px-3 py-2 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors ${
         location.pathname === path
           ? "text-secondary-foreground font-medium"
           : "text-foreground"

@@ -4,11 +4,13 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import ThemeToggle from "../theme/ThemeToggle";
 
 interface MoreMenuProps {
   onLinkClick?: () => void;
@@ -45,6 +47,11 @@ const MoreMenu = ({ onLinkClick }: MoreMenuProps) => {
         <DropdownMenuItem asChild>
           <Link to="#" className="w-full" onClick={onLinkClick}>Feedback</Link>
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <div className="px-2 py-1.5 flex items-center justify-between">
+          <span className="text-sm">Dark Mode</span>
+          <ThemeToggle />
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );
