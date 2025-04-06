@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -66,9 +65,9 @@ export default {
 				brand: {
 					// Updated to calmer, more soothing baby-friendly colors
 					peach: '#F5E2D9',
-					softBlue: '#E6EEF5',
-					lavender: '#EDEDF7',
-					cream: '#F9F5EC',
+					softBlue: '#d8ecfd',
+					lavender: '#e5e5ff',
+					cream: '#fff6e0',
 					mintGreen: '#ECF5EE',
 					softYellow: '#F7F2E2',
 					softPink: '#F5E6E8',
@@ -81,6 +80,12 @@ export default {
 					seafoam: '#E6F1EF',
 					sand: '#F2ECE3',
 					softOrange: '#F5EBE2',
+				},
+				nurture: {
+					primary: '#C1DDD8',
+					secondary: '#9EC4C5',
+					accent: '#F5E4DC',
+					highlight: '#F2C2C2',
 				}
 			},
 			borderRadius: {

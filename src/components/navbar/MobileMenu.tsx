@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import NavLinks from "./NavLinks";
@@ -15,7 +14,7 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="md:hidden bg-white border-t">
+    <div className="md:hidden bg-nurture-primary/95 border-t border-nurture-accent">
       <div className="container mx-auto px-4 py-2">
         <nav className="flex flex-col space-y-2 py-4">
           <NavLinks onLinkClick={onClose} />
@@ -23,31 +22,31 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
           <Link
             to="#"
             onClick={onClose}
-            className="px-3 py-2 rounded-lg hover:bg-brand-mint hover:text-primary-foreground transition-colors"
+            className="px-3 py-2 rounded-lg hover:bg-nurture-accent hover:text-nurture-secondary transition-colors"
           >
             Gallery
           </Link>
           <Link
             to="#"
             onClick={onClose}
-            className="px-3 py-2 rounded-lg hover:bg-brand-mint hover:text-primary-foreground transition-colors"
+            className="px-3 py-2 rounded-lg hover:bg-nurture-accent hover:text-nurture-secondary transition-colors"
           >
             Feedback
           </Link>
-          
+
           {isAuthenticated && (
             <>
               <Link
                 to="/dashboard"
                 onClick={onClose}
-                className="px-3 py-2 rounded-lg hover:bg-brand-mint hover:text-primary-foreground transition-colors"
+                className="px-3 py-2 rounded-lg hover:bg-nurture-accent hover:text-nurture-secondary transition-colors"
               >
                 Dashboard
               </Link>
               <Link
                 to="/appointments"
                 onClick={onClose}
-                className="px-3 py-2 rounded-lg hover:bg-brand-mint hover:text-primary-foreground transition-colors"
+                className="px-3 py-2 rounded-lg hover:bg-nurture-accent hover:text-nurture-secondary transition-colors"
               >
                 Online Consultation
               </Link>

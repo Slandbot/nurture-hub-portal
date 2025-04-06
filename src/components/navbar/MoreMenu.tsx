@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -22,33 +21,33 @@ const MoreMenu = ({ onLinkClick }: MoreMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="flex items-center">
+        <Button variant="ghost" className="flex items-center text-nurture-secondary hover:text-nurture-highlight">
           More <ChevronDown className="ml-1 h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48">
+      <DropdownMenuContent align="end" className="w-48 bg-white border-nurture-accent">
         {isAuthenticated ? (
           <>
             <DropdownMenuItem asChild>
-              <Link to="/dashboard" className="w-full" onClick={onLinkClick}>Dashboard</Link>
+              <Link to="/dashboard" className="w-full text-nurture-secondary hover:text-nurture-highlight" onClick={onLinkClick}>Dashboard</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to="/appointments" className="w-full" onClick={onLinkClick}>Online Consultation</Link>
+              <Link to="/appointments" className="w-full text-nurture-secondary hover:text-nurture-highlight" onClick={onLinkClick}>Online Consultation</Link>
             </DropdownMenuItem>
           </>
         ) : (
           <DropdownMenuItem asChild>
-            <Link to="/login" className="w-full" onClick={onLinkClick}>Login to access more</Link>
+            <Link to="/login" className="w-full text-nurture-secondary hover:text-nurture-highlight" onClick={onLinkClick}>Login to access more</Link>
           </DropdownMenuItem>
         )}
         <DropdownMenuItem asChild>
-          <Link to="#" className="w-full" onClick={onLinkClick}>Gallery</Link>
+          <Link to="#" className="w-full text-nurture-secondary hover:text-nurture-highlight" onClick={onLinkClick}>Gallery</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link to="#" className="w-full" onClick={onLinkClick}>Feedback</Link>
+          <Link to="#" className="w-full text-nurture-secondary hover:text-nurture-highlight" onClick={onLinkClick}>Feedback</Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <div className="px-2 py-1.5 flex items-center justify-between">
+        <DropdownMenuSeparator className="bg-nurture-accent/20" />
+        <div className="px-2 py-1.5 flex items-center justify-between text-nurture-secondary">
           <span className="text-sm">Dark Mode</span>
           <ThemeToggle />
         </div>

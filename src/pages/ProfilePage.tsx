@@ -29,7 +29,7 @@ const ProfilePage = () => {
             <div className="md:w-1/3 mb-6 md:mb-0">
               <div className="w-64 h-64 rounded-full overflow-hidden border-4 border-white mx-auto">
                 <img 
-                  src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7" 
+                  src="https://www.virtuebaby.in/images/img2.jpg" 
                   alt="Dr. Nitika" 
                   className="w-full h-full object-cover"
                 />

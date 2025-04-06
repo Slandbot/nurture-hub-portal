@@ -1,4 +1,3 @@
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +22,7 @@ const UserMenu = ({ isMobile = false, onActionClick }: UserMenuProps) => {
   if (!isAuthenticated) {
     if (isMobile) {
       return (
-        <Button asChild variant="default" className="w-full mt-4 bg-brand-pink hover:bg-brand-lavender">
+        <Button asChild variant="default" className="w-full mt-4 bg-nurture-highlight hover:bg-nurture-highlight/90 text-white">
           <Link to="/login" onClick={onActionClick}>
             Login
           </Link>
@@ -32,7 +31,7 @@ const UserMenu = ({ isMobile = false, onActionClick }: UserMenuProps) => {
     }
     
     return (
-      <Button asChild variant="default" className="ml-2 bg-brand-pink hover:bg-brand-lavender">
+      <Button asChild variant="default" className="bg-nurture-highlight hover:bg-nurture-highlight/90 text-white">
         <Link to="/login">Login</Link>
       </Button>
     );
@@ -43,13 +42,13 @@ const UserMenu = ({ isMobile = false, onActionClick }: UserMenuProps) => {
     return (
       <>
         <div className="flex items-center gap-3 px-3 py-2">
-          <Avatar className="h-8 w-8">
+          <Avatar className="h-8 w-8 border-2 border-nurture-accent">
             <AvatarImage src={user?.avatar} alt={user?.name} />
-            <AvatarFallback>{user?.name?.[0]}</AvatarFallback>
+            <AvatarFallback className="bg-nurture-secondary text-white">{user?.name?.[0]}</AvatarFallback>
           </Avatar>
           <div>
-            <p className="text-sm font-medium">{user?.name}</p>
-            <p className="text-xs text-muted-foreground">{user?.email}</p>
+            <p className="text-sm font-medium text-nurture-secondary">{user?.name}</p>
+            <p className="text-xs text-nurture-secondary/70">{user?.email}</p>
           </div>
         </div>
         <Button 
@@ -58,7 +57,7 @@ const UserMenu = ({ isMobile = false, onActionClick }: UserMenuProps) => {
             if (onActionClick) onActionClick();
           }} 
           variant="destructive" 
-          className="w-full mt-2"
+          className="w-full mt-2 bg-red-500 hover:bg-red-600 text-white"
         >
           <LogOut className="mr-2 h-4 w-4" />
           Log out
@@ -71,34 +70,34 @@ const UserMenu = ({ isMobile = false, onActionClick }: UserMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="flex items-center gap-2">
-          <Avatar className="h-8 w-8">
+        <Button variant="ghost" className="flex items-center gap-2 text-nurture-secondary hover:text-nurture-highlight">
+          <Avatar className="h-8 w-8 border-2 border-nurture-accent">
             <AvatarImage src={user?.avatar} alt={user?.name} />
-            <AvatarFallback>{user?.name?.[0]}</AvatarFallback>
+            <AvatarFallback className="bg-nurture-secondary text-white">{user?.name?.[0]}</AvatarFallback>
           </Avatar>
           <span className="hidden sm:inline">{user?.name?.split(" ")[0]}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent align="end" className="w-56 bg-white border-nurture-accent">
         <div className="flex flex-col space-y-1 p-2">
-          <p className="text-sm font-medium">{user?.name}</p>
-          <p className="text-xs text-muted-foreground">{user?.email}</p>
+          <p className="text-sm font-medium text-nurture-secondary">{user?.name}</p>
+          <p className="text-xs text-nurture-secondary/70">{user?.email}</p>
         </div>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="bg-nurture-accent/20" />
         <DropdownMenuItem asChild>
-          <Link to="/dashboard" className="w-full">
+          <Link to="/dashboard" className="w-full text-nurture-secondary hover:text-nurture-highlight">
             <User className="mr-2 h-4 w-4" />
             Dashboard
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link to="/appointments" className="w-full">
+          <Link to="/appointments" className="w-full text-nurture-secondary hover:text-nurture-highlight">
             <CalendarIcon className="mr-2 h-4 w-4" />
             Online Consultation
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={logout} className="text-red-600">
+        <DropdownMenuSeparator className="bg-nurture-accent/20" />
+        <DropdownMenuItem onClick={logout} className="text-red-600 hover:text-red-700">
           <LogOut className="mr-2 h-4 w-4" />
           Log out
         </DropdownMenuItem>

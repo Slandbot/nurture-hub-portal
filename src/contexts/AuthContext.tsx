@@ -1,13 +1,21 @@
-
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface User {
   id: string;
   name: string;
   email: string;
-  avatar?: string;
+  avatar: string;
+  role?: string;
+  preferences?: UserPreferences;
+}
+
+interface UserPreferences {
+  notifications: boolean;
+  theme: "light" | "dark" | "system";
+  language: string;
 }
 
 interface AuthContextType {
@@ -17,60 +25,80 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
+  updateUserPreferences: (preferences: Partial<UserPreferences>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
+const SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Check if user is logged in on app load
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
+    // Check for existing session and validate expiry
+    const checkAuth = () => {
       try {
-        setUser(JSON.parse(storedUser));
+        const sessionStr = localStorage.getItem("session");
+        if (!sessionStr) {
+          setIsLoading(false);
+          return;
+        }
+
+        const session = JSON.parse(sessionStr);
+        const now = new Date().getTime();
+
+        if (session.expiresAt && now < session.expiresAt) {
+          setUser(session.user);
+        } else {
+          // Session expired
+          localStorage.removeItem("session");
+          localStorage.removeItem("user");
+        }
       } catch (error) {
-        console.error("Failed to parse stored user:", error);
+        console.error("Failed to parse stored session:", error);
+        localStorage.removeItem("session");
         localStorage.removeItem("user");
       }
-    }
-    setIsLoading(false);
+      setIsLoading(false);
+    };
+
+    checkAuth();
   }, []);
+
+  const setSession = (userData: User) => {
+    const session = {
+      user: userData,
+      expiresAt: new Date().getTime() + SESSION_DURATION,
+    };
+    localStorage.setItem("session", JSON.stringify(session));
+    setUser(userData);
+  };
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // Simulate a login request
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Simple validation - in a real app, this would be a backend API call
       if (email && password.length >= 6) {
-        const newUser = {
+        const mockUser = {
           id: Math.random().toString(36).substring(2, 9),
           name: email.split("@")[0],
           email,
-          avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(email.split("@")[0])}&background=random`
+          avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(email.split("@")[0])}&background=random`,
+          preferences: {
+            notifications: true,
+            theme: "light" as const,
+            language: "en"
+          }
         };
         
-        setUser(newUser);
-        localStorage.setItem("user", JSON.stringify(newUser));
-        toast.success("Login successful!", {
-          description: "Welcome back to Nurture Hub!",
+        setSession(mockUser);
+        toast.success("Welcome back!", {
+          description: "You've successfully logged in to Nurture Hub",
         });
         navigate("/dashboard");
       } else {
@@ -78,8 +106,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     } catch (error) {
       toast.error("Login failed", {
-        description: error instanceof Error ? error.message : "Please check your email and password",
+        description: error instanceof Error ? error.message : "Please check your credentials and try again",
       });
+      throw error;
     } finally {
       setIsLoading(false);
     }
@@ -88,42 +117,70 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const signup = async (name: string, email: string, password: string) => {
     setIsLoading(true);
     try {
-      // Simulate a signup request
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Simple validation - in a real app, this would be a backend API call
       if (name && email && password.length >= 6) {
-        const newUser = {
+        const mockUser = {
           id: Math.random().toString(36).substring(2, 9),
           name,
           email,
-          avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`
+          avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`,
+          preferences: {
+            notifications: true,
+            theme: "light" as const,
+            language: "en"
+          }
         };
         
-        setUser(newUser);
-        localStorage.setItem("user", JSON.stringify(newUser));
-        toast.success("Account created successfully!", {
-          description: "Welcome to Nurture Hub!",
+        setSession(mockUser);
+        toast.success("Account created!", {
+          description: "Welcome to Nurture Hub! Your account has been created successfully.",
         });
         navigate("/dashboard");
       } else {
-        throw new Error("Please fill all fields with valid information");
+        throw new Error("Please fill in all required fields");
       }
     } catch (error) {
       toast.error("Signup failed", {
-        description: error instanceof Error ? error.message : "Please check your information",
+        description: error instanceof Error ? error.message : "Please check your information and try again",
       });
+      throw error;
     } finally {
       setIsLoading(false);
     }
   };
 
   const logout = () => {
-    setUser(null);
+    localStorage.removeItem("session");
     localStorage.removeItem("user");
-    toast.info("You have been logged out");
-    navigate("/");
+    setUser(null);
+    toast.success("Logged out successfully");
+    navigate("/login");
   };
+
+  const updateUserPreferences = (preferences: Partial<UserPreferences>) => {
+    if (!user) return;
+    
+    const updatedUser = {
+      ...user,
+      preferences: {
+        ...user.preferences,
+        ...preferences
+      }
+    };
+    
+    setSession(updatedUser);
+    toast.success("Preferences updated successfully");
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <AuthContext.Provider
@@ -133,10 +190,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         isAuthenticated: !!user,
         login,
         signup,
-        logout
+        logout,
+        updateUserPreferences,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
-};
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+}

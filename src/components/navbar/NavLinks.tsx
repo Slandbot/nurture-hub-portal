@@ -1,4 +1,3 @@
-
 import { Link, useLocation } from "react-router-dom";
 
 interface NavLinkProps {
@@ -14,10 +13,10 @@ export const NavLink = ({ path, name, onClick }: NavLinkProps) => {
     <Link
       to={path}
       onClick={onClick}
-      className={`px-3 py-2 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors ${
+      className={`px-3 py-2 rounded-lg hover:bg-nurture-accent hover:text-nurture-secondary transition-colors ${
         location.pathname === path
-          ? "text-secondary-foreground font-medium"
-          : "text-foreground"
+          ? "text-nurture-highlight font-medium"
+          : "text-nurture-secondary"
       }`}
     >
       {name}

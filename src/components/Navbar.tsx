@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,6 +6,8 @@ import NavLinks from "./navbar/NavLinks";
 import UserMenu from "./navbar/UserMenu";
 import MoreMenu from "./navbar/MoreMenu";
 import MobileMenu from "./navbar/MobileMenu";
+import { NotificationBell } from "./navbar/NotificationBell";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface NavbarProps {
   menuOpen: boolean;
@@ -15,6 +16,7 @@ interface NavbarProps {
 
 const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,14 +36,14 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled || menuOpen ? "bg-white shadow-md" : "bg-transparent"
+        isScrolled || menuOpen ? "bg-nurture-primary/95 shadow-md" : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center">
           <span className="text-2xl font-bold">
-            <span className="text-brand-pink">Virtue</span>
-            <span className="text-brand-blue">Baby</span>
+            <span className="text-nurture-highlight">Virtue</span>
+            <span className="text-nurture-secondary">Baby</span>
           </span>
         </Link>
 
@@ -49,6 +51,7 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
         <nav className="hidden md:flex items-center space-x-1">
           <NavLinks />
           <MoreMenu />
+          {isAuthenticated && <NotificationBell />}
           <UserMenu />
         </nav>
 
@@ -57,7 +60,7 @@ const Navbar = ({ menuOpen, toggleMenu }: NavbarProps) => {
           variant="ghost"
           size="icon"
           onClick={toggleMenu}
-          className="md:hidden"
+          className="md:hidden text-nurture-secondary hover:text-nurture-highlight"
         >
           {menuOpen ? (
             <X className="h-6 w-6" />

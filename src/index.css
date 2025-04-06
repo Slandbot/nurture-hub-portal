@@ -112,19 +112,19 @@
 
 /* Updated gradients with calmer colors */
 .baby-gradient {
-  background: linear-gradient(135deg, #E8EFF5 0%, #F5E6E8 50%, #EAF5EC 100%);
+  background: linear-gradient(135deg, #d2eaff 0%, #F5E6E8 50%, #e4fee8 100%);
 }
 
 .pastel-gradient {
-  background: linear-gradient(to right, #ECECF6 0%, #F5E6E8 100%);
+  background: linear-gradient(to right, #e3e3ff 0%, #ffe6e9 100%);
 }
 
 .soft-gradient {
-  background: linear-gradient(90deg, #F9F5E3 0%, #F5E6DF 100%);
+  background: linear-gradient(90deg, #fff8db 0%, #ffe7dc 100%);
 }
 
 .baby-pattern {
-  background-color: #F7F7F9;
+  background-color: #a3a3a3;
   background-image: radial-gradient(#F5E6E8 1.5px, transparent 1.5px);
   background-size: 20px 20px;
 }

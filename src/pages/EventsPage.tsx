@@ -152,7 +152,7 @@ const EventsPage = () => {
   return (
     <div className="pt-16">
       {/* Hero Section */}
-      <section className="spice-gradient section-padding text-white">
+      <section className="spice-gradient section-padding text-brand-saffron">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Upcoming Events</h1>
           <p className="text-lg max-w-3xl mx-auto">
@@ -349,7 +349,7 @@ const EventsPage = () => {
       </section>
 
       {/* Newsletter */}
-      <section className="peacock-gradient text-white section-padding">
+      <section className="peacock-gradient text-brand-saffron section-padding">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Never Miss An Event</h2>
           <p className="text-lg mb-8 max-w-2xl mx-auto">
@@ -359,7 +359,7 @@ const EventsPage = () => {
             <input 
               type="email" 
               placeholder="Your email address" 
-              className="px-4 py-2 rounded-md border border-white/30 bg-white/20 text-white placeholder:text-white/70 w-full"
+              className="px-4 py-2 rounded-md border border-red/30 bg-red/20 text-brand-peacock placeholder:text-red/70 w-full"
             />
             <Button variant="secondary" className="text-brand-peacock font-medium">
               Subscribe

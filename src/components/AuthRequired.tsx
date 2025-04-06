@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -17,27 +16,27 @@ const AuthRequired = ({
   const [isHovered, setIsHovered] = useState(false);
   
   return (
-    <Card className="max-w-md mx-auto">
+    <Card className="max-w-md mx-auto border-nurture-accent">
       <CardHeader className="text-center">
         <div 
-          className="w-20 h-20 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center"
+          className="w-20 h-20 mx-auto mb-4 rounded-full bg-nurture-primary/20 flex items-center justify-center"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
           <LockKeyhole 
             className={`h-10 w-10 transition-all duration-300 ${
-              isHovered ? "text-primary transform rotate-12" : "text-muted-foreground"
+              isHovered ? "text-nurture-highlight transform rotate-12" : "text-nurture-secondary"
             }`} 
           />
         </div>
-        <CardTitle>Authentication Required</CardTitle>
+        <CardTitle className="text-nurture-secondary">Authentication Required</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-center text-muted-foreground">{message}</p>
+        <p className="text-center text-nurture-secondary/70">{message}</p>
       </CardContent>
       {showLogin && (
         <CardFooter className="flex justify-center">
-          <Button asChild className="bg-brand-saffron hover:bg-brand-ochre">
+          <Button asChild className="bg-nurture-highlight hover:bg-nurture-highlight/90 text-white">
             <Link to="/login">Log in</Link>
           </Button>
         </CardFooter>
