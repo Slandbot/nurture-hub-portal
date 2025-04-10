@@ -39,28 +39,28 @@ const AboutPage = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="aspect-square overflow-hidden rounded-lg">
                   <img 
-                    src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7" 
-                    alt="Nurture Hub Team" 
+                    src="images/kids-at-park.jpg"
+                    alt="Nurture Hub Community"  
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="aspect-square overflow-hidden rounded-lg">
                   <img 
-                    src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b" 
+                    src="images/pregnancy.jpg" 
                     alt="Nurture Hub Office" 
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="aspect-square overflow-hidden rounded-lg">
                   <img 
-                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f" 
+                    src="images/father-with-family.jpg" 
                     alt="Nurture Hub Workshop" 
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="aspect-square overflow-hidden rounded-lg">
                   <img 
-                    src="https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b" 
+                    src="images/kids.jpg" 
                     alt="Nurture Hub Consultation" 
                     className="w-full h-full object-cover"
                   />
