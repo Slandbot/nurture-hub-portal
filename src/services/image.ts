@@ -15,32 +15,77 @@ class ImageService {
   private imageCacheStore = 'imageCache' as const;
   private cacheExpiry = 7 * 24 * 60 * 60 * 1000; // 7 days
 
+  private async loadImageWithTimeout(src: string, timeoutMs = 5000): Promise<HTMLImageElement> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const timeout = setTimeout(() => {
+        img.src = '';
+        reject(new Error(`Image load timed out after ${timeoutMs}ms: ${src}`));
+      }, timeoutMs);
+
+      img.onload = () => {
+        clearTimeout(timeout);
+        resolve(img);
+      };
+
+      img.onerror = () => {
+        clearTimeout(timeout);
+        reject(new Error(`Failed to load image: ${src}`));
+      };
+
+      img.src = src;
+    });
+  }
+
   async loadImage(src: string, options: { width?: number; height?: number; quality?: number } = {}): Promise<ImageMetadata> {
     const cacheKey = this.getCacheKey(src, options);
-    
+    const MAX_RETRIES = 3;
+
     // Try to get from cache first
     const cached = await this.getFromCache(cacheKey);
     if (cached && !this.isExpired(cached.timestamp)) {
       return cached.data;
     }
 
-    // Generate blur placeholder
-    const blurDataURL = await this.generateBlurPlaceholder(src);
+    // Try loading with retries
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        // Generate blur placeholder
+        const blurDataURL = await this.generateBlurPlaceholder(src);
 
-    // Load and process image
-    const dimensions = await this.getImageDimensions(src);
-    const metadata: ImageMetadata = {
-      src,
-      width: options.width || dimensions.width,
-      height: options.height || dimensions.height,
-      blurDataURL,
-      cacheKey
-    };
+        // Load and process image with timeout
+        const img = await this.loadImageWithTimeout(src);
 
-    // Cache the result
-    await this.cacheMetadata(cacheKey, metadata);
+        const metadata: ImageMetadata = {
+          src,
+          width: options.width || img.naturalWidth,
+          height: options.height || img.naturalHeight,
+          blurDataURL,
+          cacheKey
+        };
 
-    return metadata;
+        // Cache the result
+        await this.cacheMetadata(cacheKey, metadata);
+
+        return metadata;
+      } catch (error) {
+        if (attempt === MAX_RETRIES) {
+          console.error(`Failed to load image after ${MAX_RETRIES} attempts:`, error);
+          // Return fallback metadata
+          return {
+            src: '/placeholder.svg',
+            width: options.width || 300,
+            height: options.height || 300,
+            blurDataURL: '',
+            cacheKey
+          };
+        }
+        // Wait before retry with exponential backoff
+        await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
+      }
+    }
+
+    throw new Error('Should not reach here due to fallback in retry loop');
   }
 
   private getCacheKey(src: string, options: { width?: number; height?: number; quality?: number }): string {
