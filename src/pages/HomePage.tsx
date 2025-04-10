@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/contexts/AuthContext";
 import { 
   Calendar, 
   ShoppingBag, 
@@ -14,6 +15,65 @@ import {
 } from "lucide-react";
 
 const HomePage = () => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const allVideos = [
+    {
+      src: "https://www.youtube.com/embed/qrekEYUOIdQ?si=Ox5ygLxonXVKKIKp",
+      title: "Pregnancy Wellness Tips",
+      description: "Learn essential tips for a healthy pregnancy with Dr. Nitika"
+    },
+    {
+      src: "https://www.youtube.com/embed/pTKzeLL3g4A?si=Tjm0ouUAI0lTPXwS",
+      title: "Parenting Guide",
+      description: "Expert guidance on early parenting challenges"
+    },
+    {
+      src: "https://www.youtube.com/embed/0K3WgDA4CGk?si=87rdfiYgL1qs0YHS",
+      title: "Baby Care Essentials",
+      description: "Essential tips for caring for your newborn baby"
+    },
+    {
+      src: "https://www.youtube.com/embed/BxHk447kbL4?si=bzM49YRbjconp8YI",
+      title: "Breastfeeding Guide",
+      description: "Complete guide for breastfeeding mothers"
+    },
+    {
+      src: "https://www.youtube.com/embed/vfuZnJ5Jkik?si=a-BLqf_kAkRTQKj6",
+      title: "Newborn Care Tips",
+      description: "Essential guidance for caring for your newborn"
+    },
+    {
+      src: "https://www.youtube.com/embed/FsTRcAXR-zA?si=xx-ZrcgsCwisZCqa",
+      title: "Baby Development Guide",
+      description: "Understanding your baby's developmental milestones"
+    },
+    {
+      src: "https://www.youtube.com/embed/hnFpam2u5Xc?si=TKIUhk6l5D6Sn-vZ",
+      title: "Baby Sleep Guide",
+      description: "Tips for better sleep patterns for your baby"
+    },
+    {
+      src: "https://www.youtube.com/embed/JrK1m4_FFBY?si=MKiO__tM2ZZthfHC",
+      title: "Pregnancy Diet Guide",
+      description: "Essential nutrition tips during pregnancy"
+    },
+    {
+      src: "https://www.youtube.com/embed/Y07fjkn7_LY?si=KGKTGIfWhoXGSz1B",
+      title: "Prenatal Exercise Guide",
+      description: "Safe exercises during pregnancy"
+    }
+  ];
+
+  const displayedVideos = isAuthenticated ? allVideos : allVideos.slice(0, 3);
+
+  const handleViewAllVideos = () => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  };
+
   return (
     <div className="pt-16">
       {/* Hero Section */}
@@ -146,36 +206,40 @@ const HomePage = () => {
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="videos" className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[1, 2, 3].map((item) => (
-                  <Card key={item} className="overflow-hidden hover-scale border-nurture-accent">
+            <TabsContent value="videos" className="space-y-4">              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {displayedVideos.map((video, index) => (
+                  <Card key={index} className="overflow-hidden hover-scale border-nurture-accent">
                     <div className="aspect-video bg-muted relative">
-                      <img 
-                        src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5" 
-                        alt="Video thumbnail" 
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                        <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
-                          <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[14px] border-l-primary border-b-[8px] border-b-transparent ml-1"></div>
-                        </div>
-                      </div>
-                    </div>
+                      <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src={video.src}
+                        title="YouTube video player" 
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        referrerPolicy="strict-origin-when-cross-origin" 
+                        allowFullScreen
+                        className="absolute inset-0"
+                      /></div>
                     <CardContent className="p-4">
-                      <h3 className="font-semibold mb-1 text-nurture-secondary">Pregnancy Wellness Tips</h3>
+                      <h3 className="font-semibold mb-1 text-nurture-secondary">{video.title}</h3>
                       <p className="text-sm text-muted-foreground">
-                        Learn essential tips for a healthy pregnancy with Dr. Nitika
+                        {video.description}
                       </p>
                     </CardContent>
                   </Card>
                 ))}
-              </div>
-              <div className="text-center mt-8">
-                <Button asChild variant="outline" className="border-nurture-secondary text-nurture-secondary hover:bg-nurture-secondary/10">
-                  <Link to="/dashboard">View All Videos</Link>
-                </Button>
-              </div>
+              </div>              {!isAuthenticated && (
+                <div className="text-center mt-8">
+                  <Button 
+                    variant="outline" 
+                    className="border-nurture-secondary text-nurture-secondary hover:bg-nurture-secondary/10"
+                    onClick={handleViewAllVideos}
+                  >
+                    View All Videos
+                  </Button>
+                </div>
+              )}
             </TabsContent>
             
             <TabsContent value="community">
